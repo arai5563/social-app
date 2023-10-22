@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
 
 
 
-    if (req.url.includes("/login")) {
+    if (req.url.includes("/login") || req.url.includes("/signup") ) {
         if (!session) {
             return;
         }
