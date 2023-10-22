@@ -1,13 +1,16 @@
 "use client"
 
 import supabaseClient from "@/lib/supabaseClient"
+import { useRouter } from "next/navigation"
 import React from "react"
 
 const page = () => {
+  const router = useRouter()
   const logoutHandler = async () => {
     try {
       const { error } = await supabaseClient.auth.signOut()
-      console.log("logged out")
+      router.push("/login")
+
     } catch (error) {
       console.log("error: ", error)
     }

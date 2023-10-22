@@ -1,8 +1,9 @@
 "use client"
-import { Fragment } from "react"
+import { Fragment, useContext, useEffect } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
+import { UserDataContext } from "@/context/UserDataContext"
 
 const user = {
   name: "Tom Cook",
@@ -27,6 +28,13 @@ function classNames(...classes: any) {
 }
 
 export default function Navbar() {
+  const {userState} = useContext(UserDataContext)
+  console.log('userState: ', userState);
+  
+  useEffect(()=> {
+    console.log('userState:=== ', userState);
+
+  },[userState])
   return (
     <>
       <div className="min-h-full">

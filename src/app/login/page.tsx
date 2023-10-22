@@ -3,42 +3,32 @@ import supabaseClient from "@/lib/supabaseClient";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loginSchema } from "../../../schema/loginSchema";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import Hide from "../../../assets/password.svg";
 import Show from "../../../assets/text.svg";
+import AppLogo from "../../../assets/Social_media.gif"
 
 const login = () => {
   const [passswordShow, setPasswordShow] = useState(false);
 
   const router = useRouter();
 
-  const signUpHandler = async () => {
-    try {
-      const {
-        data: {},
-        error,
-      } = await supabaseClient.auth.signUp({
-        email: "payamit.ar@gmail.com",
-        password: "123456",
-      });
-      console.log("link sended");
-    } catch (error) {
-      console.log("error: ", error);
-    }
-  };
+  
 
-  const signInHandler = async () => {
+  const signInHandler = async (value:any) => {
     try {
       const {
-        data: {},
+        data,
         error,
       } = await supabaseClient.auth.signInWithPassword({
-        email: "payamit.ar@gmail.com",
-        password: "123456",
+        email: value.email,
+        password: value.password,
       });
-      console.log("error: ", error);
+      if(data.user){
+        router.push("/")
+      }
     } catch (error) {
       console.log("error: ", error);
     }
@@ -49,27 +39,28 @@ const login = () => {
     password: "",
   };
 
-  const { values, handleChange, handleSubmit, errors, touched } = useFormik({
+  const { values, handleChange, handleSubmit, errors, touched,setFieldValue } = useFormik({
     initialValues: initialValues,
     validationSchema: loginSchema,
     onSubmit: (value) => {
-      console.log("value: ", value);
+      signInHandler(value)
     },
   });
+ 
 
   return (
     <div>
       <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md  mt-[90px]">
         <div className="flex justify-center mx-auto">
           <Image
-            height={50}
-            width={50}
-            src="https://merakiui.com/images/logo.svg"
+            height={150}
+            width={150}
+            src={AppLogo}
             alt=""
           />
         </div>
 
-        <form className="mt-6" onSubmit={handleSubmit}>
+        <form className="mt-6" onSubmit={handleSubmit} autoComplete="off">
           
 
           <div>
@@ -97,8 +88,9 @@ const login = () => {
           <div>
             <div className="flex flex-col">
               <TextField
-                id="newpassword"
-                label="New Password"
+                id="password"
+                label="Password"
+                autoComplete="off"
                 variant="standard"
                 value={values.password}
                 onChange={handleChange}

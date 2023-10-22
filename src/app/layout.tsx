@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import SupabaseListener from "@/components/SupabaseListener"
 import createServerClient from "@/lib/supabaseServer"
-import Navbar from "@/components/CommonSection/Navbar"
 import Header from "@/components/CommonSection/Header"
+import NavbarMain from "@/components/CommonSection/NavbarMain"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -31,7 +31,7 @@ export default async function RootLayout({
       <body>
         <SupabaseListener accessToken={session?.access_token || ""} />
         <nav>
-          <Navbar />
+          <NavbarMain />
         </nav>
         <header>
           <Header />
